@@ -12,9 +12,16 @@ public class BeanFactoryTest {
 		// 创建工厂
 		BeanFactory beanFactory = new AutowireCapableBeanFactory();
 		
-		// Bean的注入 这里不再需要对象来进行注入，提供类名即可，在工厂中创建对象并注入
+		// 提供类名
 		BeanDefinition beanDefinition = new BeanDefinition();
 		beanDefinition.setBeanClassName("cn.yx.spring.TestService");
+		
+		// 属性的添加
+		PropertyValues propertyValues = new PropertyValues();
+		propertyValues.addPropertyValue(new PropertyValue("text","xxx"));
+		beanDefinition.setPropertyValues(propertyValues);
+		
+		// 注入
 		beanFactory.registerBeanDefinition("testService", beanDefinition);
 		
 		// Bean的获取

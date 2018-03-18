@@ -1,13 +1,13 @@
 package cn.yx.spring.factory;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import cn.yx.spring.BeanDefinition;
 
 public abstract class AbstractBeanFactory implements BeanFactory{
 	
-private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, BeanDefinition>();
+private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
 	
 	public void registerBeanDefinition(String name, BeanDefinition beanDefinition) throws Exception{
 		Object bean = createBean(beanDefinition);
@@ -20,5 +20,5 @@ private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, Bean
 	}
 	
 	public abstract Object createBean(BeanDefinition beanDefinition) throws Exception;
-
+	
 }

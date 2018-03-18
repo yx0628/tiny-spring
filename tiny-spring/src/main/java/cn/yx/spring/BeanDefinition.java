@@ -6,13 +6,14 @@ package cn.yx.spring;
 public class BeanDefinition {
 
 	private Object bean;
-	
+
 	private Class beanClass;
-	
+
 	private String beanClassName;
 
-	public Object getBean() {
-		return bean;
+    private PropertyValues propertyValues;
+
+	public BeanDefinition() {
 	}
 
 	public void setBean(Object bean) {
@@ -39,5 +40,16 @@ public class BeanDefinition {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public Object getBean() {
+		return bean;
+	}
+
+    public PropertyValues getPropertyValues() {
+        return propertyValues;
+    }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
+    }
 }
