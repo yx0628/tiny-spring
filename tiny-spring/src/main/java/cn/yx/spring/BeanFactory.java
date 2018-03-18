@@ -1,11 +1,11 @@
 package cn.yx.spring;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BeanFactory {
 
-	private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, BeanDefinition>();
+	private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
 	
 	public void registerBeanDefinition(String name, BeanDefinition beanDefinition){
 		beanDefinitionMap.put(name, beanDefinition);
