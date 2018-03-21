@@ -3,6 +3,7 @@ package cn.yx.spring.factory;
 import java.lang.reflect.Field;
 
 import cn.yx.spring.BeanDefinition;
+import cn.yx.spring.BeanReference;
 import cn.yx.spring.PropertyValue;
 
 public class AutowireCapableBeanFactory extends AbstractBeanFactory{
@@ -22,7 +23,12 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
 		for (PropertyValue propertyValue : mbd.getPropertyValues().getPropertyValueList()) {
 			Field declaredField = bean.getClass().getDeclaredField(propertyValue.getName());
 			declaredField.setAccessible(true);
-			declaredField.set(bean, propertyValue.getValue());
+			Object value = propertyValue.getValue();
+			if(value instanceof BeanReference){
+				BeanReference beanReference = (BeanReference)value;
+				value = getBean(beanReference.getName());
+			}
+			declaredField.set(bean, value);
 		}
 	}
 }

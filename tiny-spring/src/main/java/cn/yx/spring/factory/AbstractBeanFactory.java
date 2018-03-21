@@ -18,6 +18,7 @@ public abstract class AbstractBeanFactory implements BeanFactory{
 		// Object bean = createBean(beanDefinition);
 		// beanDefinition.setBean(bean);
 		beanDefinitionMap.put(name, beanDefinition);
+		beanNames.add(name);
 	}
 	
 	public Object getBean(String name) throws Exception{
@@ -35,9 +36,7 @@ public abstract class AbstractBeanFactory implements BeanFactory{
 	// 预加载bean对象的调用方法
 	public void preload() throws Exception{
 		for(String name : beanNames){
-			BeanDefinition beanDefinition = beanDefinitionMap.get(name);
-			Object bean = createBean(beanDefinition);
-			beanDefinition.setBean(bean);
+			getBean(name);
 		}
 	}
 	

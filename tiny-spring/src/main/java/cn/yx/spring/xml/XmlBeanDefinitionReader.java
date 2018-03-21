@@ -14,8 +14,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import cn.yx.spring.BeanDefinition;
+import cn.yx.spring.BeanReference;
 import cn.yx.spring.PropertyValue;
-import cn.yx.spring.PropertyValues;
 import cn.yx.spring.io.UrlResource;
 
 public class XmlBeanDefinitionReader {
@@ -41,7 +41,7 @@ public class XmlBeanDefinitionReader {
 		
 	}
 
-	private void parseXmlElement(Element root) {
+	private void parseXmlElement(Element root) throws Exception {
 		NodeList nodeList = root.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
@@ -52,7 +52,7 @@ public class XmlBeanDefinitionReader {
 		}
 	}
 
-	private void processBeanDefinition(Element ele) {
+	private void processBeanDefinition(Element ele) throws Exception {
 		String name = ele.getAttribute("name");
 		String className = ele.getAttribute("class");
 		BeanDefinition beanDefinition = new BeanDefinition();
@@ -62,7 +62,7 @@ public class XmlBeanDefinitionReader {
 		beanDefinitionMap.put(name, beanDefinition);
 	}
 
-	private void processPropertyValue(Element ele, BeanDefinition beanDefinition) {
+	private void processPropertyValue(Element ele, BeanDefinition beanDefinition) throws Exception {
 		NodeList nodeList = ele.getElementsByTagName("property");
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
@@ -70,9 +70,16 @@ public class XmlBeanDefinitionReader {
 				Element propertyEle = (Element)node;
 				String name = propertyEle.getAttribute("name");
 				String value = propertyEle.getAttribute("value");
-				PropertyValues propertyValues = new PropertyValues();
-				propertyValues.addPropertyValue(new PropertyValue(name, value));
-				beanDefinition.setPropertyValues(propertyValues);
+				if(value!=null&&value.length()>0){
+					beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, value));
+				}else{
+					String ref = propertyEle.getAttribute("ref");
+					if(ref==null||ref.length()==0){
+						throw new Exception("value or ref should be set");
+					}
+					BeanReference beanReference = new BeanReference(ref);
+					beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, beanReference));
+				}
 			}
 		}
 	}
