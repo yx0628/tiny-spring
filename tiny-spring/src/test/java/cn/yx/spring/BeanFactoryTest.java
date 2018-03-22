@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import cn.yx.spring.factory.AbstractBeanFactory;
 import cn.yx.spring.factory.AutowireCapableBeanFactory;
-import cn.yx.spring.factory.BeanFactory;
 import cn.yx.spring.xml.XmlBeanDefinitionReader;
 
 public class BeanFactoryTest {
@@ -19,7 +18,7 @@ public class BeanFactoryTest {
 		xmlBeanDefinitionReader.loadXmlBeanDefinition("applicationContext.xml");
 		
 		// 创建工厂并注入(此时对象没有实例化)
-		BeanFactory beanFactory = new AutowireCapableBeanFactory();
+		AbstractBeanFactory beanFactory = new AutowireCapableBeanFactory();
 		for (Map.Entry<String, BeanDefinition> beanDefinitionEntry : xmlBeanDefinitionReader.getBeanDefinitionMap().entrySet()) {
 			beanFactory.registerBeanDefinition(beanDefinitionEntry.getKey(), beanDefinitionEntry.getValue());
 		}
