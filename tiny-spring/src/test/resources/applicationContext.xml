@@ -11,7 +11,7 @@
     <bean name="testDao" class="cn.yx.spring.TestDao">
     </bean>
 
-    <bean name="testService" class="cn.yx.spring.TestService">
+    <bean name="testService" class="cn.yx.spring.TestServiceImpl">
         <property name="text" value="xxx"></property>
         <property name="testDao" ref="testDao"></property>
     </bean>
